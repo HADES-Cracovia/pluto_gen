@@ -1,7 +1,7 @@
 #!/bin/bash
 
 . /cvmfs/hades.gsi.de/install/5.34.34/hydra2-4.9m/defall.sh
-. /cvmfs/hades.gsi.de/install/root-5.34.34/bin/thisroot.sh 
+. /cvmfs/hades.gsi.de/install/root-5.34.34/bin/thisroot.sh
 
 export HADDIR=/lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet
 export HGEANT_DIR=/lustre/nyx/hades/user/rlalik/fwdet/install/hgeant2-fwdet
