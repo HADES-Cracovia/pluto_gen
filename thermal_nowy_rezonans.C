@@ -2,7 +2,7 @@
 // Thermal source of delta's with only Dalitz decays
 // -------------------------------------------------
 
-void thermal_Delta_pee()
+void thermal_nowy_rezonans()
 {
   //gSystem->Load("/cvmfs/hades.gsi.de/install/5.34.01/pluto/v5_37/libPluto.so");
 
@@ -22,6 +22,11 @@ void thermal_Delta_pee()
   makeStaticData()->SetParticleBaryon("Lambda1520", 1);
   makeStaticData()->SetParticleSpin("Lambda1520", 3);
   makeStaticData()->SetParticleParity("Lambda1520", 1);
+
+  Int_t pid_newResonanse=makeStaticData()->AddParticle(99,"Temp",2.4);
+  makeStaticData()->SetParticleTotalWidth("Temp",0.12);
+  makeStaticData()->SetParticleBaryon("Temp",1);
+  makeStaticData()->AddAlias("Temp","temp");
   
   //makeStaticData()->AddDecay("Lambda(1520) -->  n + K0bar", "Lambda1520", "n, K0bar", 0.45);
   //makeStaticData()->AddDecay("Lambda(1520) -->  pi + Sigma", "Lambda1520", "pi0, Sigma0", 0.42);
@@ -30,7 +35,8 @@ void thermal_Delta_pee()
   //makeStaticData()->AddDecay("Lambda(1520) -->  pi + pi + Sigma", "Lambda1520", "pi0, pi0, Sigma0", 0.009);
   //makeStaticData()->AddDecay("Lambda(1520) -->  gamma + Lambda", "Lambda1520", "g, Lambda", 0.0085);
   //makeStaticData()->AddDecay("Lambda(1520) -->  Lambda + dilepton", "Lambda1520", "Lambda, dilepton", 0.0085 / 137. );
-    
+
+  makeStaticData()->AddDecay("Temp-->Lambda(1520) + K0S","Temp","Lambda1520, K0S",1);
   /*
   //makeStaticData()->AddDecay("Xi- -->  Lambda + pi", "Xi-", "Lambda, pi-", 1.);
   newmodel = new PResonanceDalitz("Lambda1520_dalitz@Lambda1520_to_Lambda_dilepton","dgdm from Zetenyi/Wolf", -1);
@@ -51,15 +57,18 @@ void thermal_Delta_pee()
       Float_t T     = 0.050;  // temperature in GeV
       Float_t blast = 0.0;   // radial expansion velocity
 
-      PFireball *source = new PFireball("Lambda(1520)",Eb,T,0,1,blast,0,0,0,0);
-      
+      PFireball *source = new PFireball("Temp",Eb,T,0,1,blast,0,0,0,0);
+      PParticle *temp=new PParticle("temp");
+      PParticle *Ls=new PParticle("Lambda(1520)");
       source->setTrueThermal(kTRUE);
       source->Print();
+      PParticle *s1[]={source,temp};
+      PChannel *c1=new PChannel(s1,1,1,1);
+      
+      PParticle *K0=new PParticle("K0S");
+      PParticle *s2[]={temp,Ls,K0};
 
-      PParticle *Ls=new PParticle("Lambda(1520)");
-      PParticle *s[]={source,Ls};
-
-      PChannel  *c1=new PChannel(s,1,1,1);
+      PChannel  *c2=new PChannel(s2,2,1,1);
       PParticle *pip = new PParticle("pi+");
       PParticle *pim = new PParticle("pi-");
       PParticle *Lz = new PParticle("Lambda");
@@ -67,18 +76,21 @@ void thermal_Delta_pee()
       
       PParticle *pidecay[] = {Ls,pip,pim,Lz};
 
-      PChannel *c2 = new PChannel(pidecay,3,1,1);
+      PChannel *c3 = new PChannel(pidecay,3,1,1);
       c2->Print();
 
       cout<<endl<<"Print all channels"<<endl<<endl;
-      PChannel  *cc[]={c1,c2};
+      PChannel  *cc[]={c1,c2,c3};
       cc[0]->Print();
       cc[1]->Print();
+      cc[2]->Print();
       
-      PReaction *r=new PReaction(cc,Form("./output/L1520_thermal_%i",ipart+100),2,0,0,0,1); // three particles in the final state
+      PReaction *r=new PReaction(cc,Form("./output_L1520K0/L1520_thermal_%i",ipart),3,0,0,0,1); // three particles in the final state
       r->Print();
       
       r->setHGeant(0);   // set to 1, if PLUTO run from HGeant prompt
+      cout<<"Poczatek petli "<<ipart+1<<endl;
       r->Loop(nEvents);
     }
+  cout<<"koniec programu"<<endl;
 }

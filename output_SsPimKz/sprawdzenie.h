@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Thu Sep 24 11:13:39 2020 by ROOT version 5.34/34
+// Thu Nov 12 13:28:48 2020 by ROOT version 5.34/34
 // from TTree data/event branch
-// found on file: output.root.root
+// found on file: SsPimKz_thermal_0.root
 //////////////////////////////////////////////////////////
 
 #ifndef sprawdzenie_h
@@ -17,10 +17,9 @@
 #include <TObject.h>
 #include <TVector3.h>
 #include <TLorentzVector.h>
-//#include "PParticle.h"
 
 // Fixed size dimensions of array or collections stored in the TTree if any.
-   const Int_t kMaxParticles = 3;
+   const Int_t kMaxParticles = 4;
 
 class sprawdzenie {
 public :
@@ -106,9 +105,9 @@ sprawdzenie::sprawdzenie(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("output.root.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("SsPimKz_thermal_0.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("output.root.root");
+         f = new TFile("SsPimKz_thermal_0.root");
       }
       f->GetObject("data",tree);
 
