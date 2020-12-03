@@ -33,12 +33,12 @@ void sprawdzenie::Loop()
 if (fChain == 0) return;
   TFile* output=new TFile("sprawdzenie_output.root","RECREATE");
   TH1F* hMinvL1520=new TH1F("hMinvL1520","Reconstructed #Lambda(1520) mass;M^{inv}_{#Lambda #pi^{+} #pi^{-}}[GeV]",1000,1,2);
-  TH1F* hPtL1520=new TH1F("hPtL1520","P_{T} for #Lambda(1520);P_{T}[GeV]",500,0,1.7);
-  TH1F* hYL1520=new TH1F("hYL1520","Rapidity for #Lambda(1520)",500,0,2);
+  TH1F* hPtL1520=new TH1F("hPtL1520","P_{T} for #Lambda(1520);P_{T}[GeV]",320,0,1.6);
+  TH1F* hYL1520=new TH1F("hYL1520","Rapidity for #Lambda(1520)",400,0,2);
 
   TH1F* hMinvL1116=new TH1F("hMinvL1116","Reconstructed #Lambda(1116) mass;M^{inv}_{#Lambda #pi^{+} #pi^{-}}[GeV]",1000,1,2);
-  TH1F* hPtL1116=new TH1F("hPtL1116","P_{T} for #Lambda(1116); P_{T}[GeV]",500,0,1.7);
-  TH1F* hYL1116=new TH1F("hYL1116","Rapidity for #Lambda(11116)",500,0,2);
+  TH1F* hPtL1116=new TH1F("hPtL1116","P_{T} for #Lambda(1116); P_{T}[GeV]",320,0,1.6);
+  TH1F* hYL1116=new TH1F("hYL1116","Rapidity for #Lambda(11116)",400,0,2);
 
   TH1F* hMinvK0=new TH1F("hMinvK0","A K^{0} invariant mass; K^{0}_{mass}[GeV]",1000,0,1);
   TH1F* hMinvRes=new TH1F("hMinvRes","Reconstructed primary resonance mass;M^{inv}_{#Lambda #pi^{+} #pi^{-} K^{0}}[GeV]",1500,1.5,3.0);
@@ -52,6 +52,7 @@ if (fChain == 0) return;
 
   TH2F* h2PipMomentumTheta=new TH2F("h2PipMomentumTheta","p_{#pi^{+}} vs #theta_{#pi^{+}};#theta_{#pi^{+}};p_{#pi^{+}}[GeV/c]",50,0,3.14,50,0,1);
   TH2F* h2PimMomentumTheta=new TH2F("h2PimMomentumTheta","p_{#pi^{-}} vs #theta_{#pi^{-}};#theta_{#pi^{-}};p_{#pi^{-}}[GeV/c]",50,0,3.14,50,0,1);
+  TH2F* h2PtvsY=new TH2F("h2PtvsY","P_{T} vs Y for events in #Lambda(1520) window;P_{t} [MeV]; Y",17,0,1700,20,0,2);
   
   Long64_t nentries = fChain->GetEntries();
 
@@ -61,7 +62,7 @@ if (fChain == 0) return;
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
-      if(jentry%500==0)
+      if(jentry%5000==0)
 	std::cout<<"Event no "<<jentry<<" from "<<nentries<<", "<<100.*jentry/nentries<<"% analyzed"<<endl;
       
       TLorentzVector Lz, Ls, pip, pim,K0,rez;
@@ -114,6 +115,7 @@ if (fChain == 0) return;
 	      h2PimMomentumTheta->Fill(pim.Theta(), pim.P());
 	      h2PipMomentumTheta->Fill(pip.Theta(), pip.P());
 
+	      h2PtvsY->Fill(Ls.Pt()*1000,Ls.Rapidity());
 	    }
 	}
       // if (Cut(ientry) < 0) continue;
@@ -159,6 +161,9 @@ if (fChain == 0) return;
   h2PipMomentumTheta->Draw("colz");
   cPvsTheta->cd(2);
   h2PimMomentumTheta->Draw("colz");
+
+  TCanvas *cYvsPt=new TCanvas("cYvsPt","cYvsPt");
+  h2PtvsY->Draw();
   
   cM->Write();
   cPtY->Write();
@@ -168,6 +173,6 @@ if (fChain == 0) return;
   cTotal->Write();
   cPions->Write();
   cPvsTheta->Write();
-  
+  cYvsPt->Write();
   output->Write();
 }
