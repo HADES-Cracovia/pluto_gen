@@ -51,12 +51,12 @@ void sprawdzenie::Loop()
   TH2F* h2Eff=(TH2F*)fEff->Get("h2PtvsYEff");
   
   TH1F* hMinvL1520=new TH1F("hMinvL1520","Reconstructed #Lambda(1520) mass;M^{inv}_{#Lambda #pi^{+} #pi^{-}}[GeV]",1000,1,2);
-  TH1F* hPtL1520=new TH1F("hPtL1520","P_{T} for #Lambda(1520);P_{T}[GeV]",500,0,1.7);
-  TH1F* hYL1520=new TH1F("hYL1520","Rapidity for #Lambda(1520)",500,0,2);
+  TH1F* hPtL1520=new TH1F("hPtL1520","P_{T} for #Lambda(1520);P_{T}[GeV]",32,0,1.6);
+  TH1F* hYL1520=new TH1F("hYL1520","Rapidity for #Lambda(1520)",40,0,2);
 
   TH1F* hMinvL1116=new TH1F("hMinvL1116","Reconstructed #Lambda(1116) mass;M^{inv}_{#Lambda #pi^{+} #pi^{-}}[GeV]",1000,1,2);
-  TH1F* hPtL1116=new TH1F("hPtL1116","P_{T} for #Lambda(1116); P_{T}[GeV]",500,0,1.7);
-  TH1F* hYL1116=new TH1F("hYL1116","Rapidity for #Lambda(11116)",500,0,2);
+  TH1F* hPtL1116=new TH1F("hPtL1116","P_{T} for #Lambda(1116); P_{T}[GeV]",32,0,1.6);
+  TH1F* hYL1116=new TH1F("hYL1116","Rapidity for #Lambda(11116)",40,0,2);
 
   TH1F* hPipMomentum= new TH1F("hPipMomentum","p_{#pi^{+}}; p_{#pi^{+}} [GeV/c]",200,0,1);
   TH1F* hPimMomentum= new TH1F("hPimMomentum","p_{#pi^{-}}; p_{#pi^{-}} [GeV/c]",200,0,1);
@@ -70,11 +70,11 @@ void sprawdzenie::Loop()
   TH1F* hMinvL1520_corrected=new TH1F("hMinvL1520_corrected","Reconstructed #Lambda(1520) mass;M^{inv}_{#Lambda #pi^{+} #pi^{-}}[GeV]",1000,1,2);
   TH1F* hMinvL1116_corrected=new TH1F("hMinvL1116_corrected","Reconstructed #Lambda(1116) mass;M^{inv}_{#Lambda #pi^{+} #pi^{-}}[GeV]",1000,1,2);
    
-  TH1F* hPtL1520_corrected=new TH1F("hPtL1520_corrected","P_{T} for #Lambda(1520);P_{T}[GeV]",500,0,1.7);
-  TH1F* hYL1520_corrected=new TH1F("hYL1520_corrected","Rapidity for #Lambda(1520)",500,0,2);
+  TH1F* hPtL1520_corrected=new TH1F("hPtL1520_corrected","P_{T} for #Lambda(1520);P_{T}[GeV]",32,0,1.6);
+  TH1F* hYL1520_corrected=new TH1F("hYL1520_corrected","Rapidity for #Lambda(1520)",40,0,2);
 
-  TH1F* hPtL1116_corrected=new TH1F("hPtL1116_corrected","P_{T} for #Lambda(1116); P_{T}[GeV]",500,0,1.7);
-  TH1F* hYL1116_corrected=new TH1F("hYL1116_corrected","Rapidity for #Lambda(11116)",500,0,2);
+  TH1F* hPtL1116_corrected=new TH1F("hPtL1116_corrected","P_{T} for #Lambda(1116); P_{T}[GeV]",32,0,1.6);
+  TH1F* hYL1116_corrected=new TH1F("hYL1116_corrected","Rapidity for #Lambda(11116)",40,0,2);
   
   TH2F* h2PtvsY=new TH2F("h2PtvsY","P_{T} vs Y for events in #\Lambda(1520) window;P_{t} [MeV]; Y",17,0,1700,20,0,2);
   
@@ -150,8 +150,9 @@ void sprawdzenie::Loop()
 
 	}
     }
+  int rebin=1;
   TCanvas *cEff=new TCanvas("cEff");
-  h2Eff->Draw("colz");
+  h2Eff->Draw("lego");
   
   TCanvas *cM=new TCanvas("cM");
   cM->Divide(2);
@@ -164,16 +165,19 @@ void sprawdzenie::Loop()
   cPtY->Divide(2);
   cPtY->cd(1);
   hYL1520->Draw();
+  hYL1520->Rebin(rebin);
   cPtY->cd(2);
   hPtL1520->Draw();
+  hPtL1520->Rebin(rebin);
 
   TCanvas *cPtY_corrected=new TCanvas("cPtY_corrected");
   cPtY_corrected->Divide(2);
   cPtY_corrected->cd(1);
   hYL1520_corrected->Draw();
+  hYL1520_corrected->Rebin(rebin);
   cPtY_corrected->cd(2);
   hPtL1520_corrected->Draw();
-
+  hPtL1520_corrected->Rebin(rebin);
   
   TCanvas *cM_L1116=new TCanvas("cM_L1116");
   hMinvL1116->Draw();
@@ -182,15 +186,19 @@ void sprawdzenie::Loop()
   cPtY_L1116->Divide(2);
   cPtY_L1116->cd(1);
   hYL1116->Draw();
+  hYL1116->Rebin(rebin);
   cPtY_L1116->cd(2);
   hPtL1116->Draw();
+  hPtL1116->Rebin(rebin);
 
   TCanvas *cPtY_L1116_corrected=new TCanvas("cPtY_L1116_corrected");
   cPtY_L1116_corrected->Divide(2);
   cPtY_L1116_corrected->cd(1);
   hYL1116_corrected->Draw();
+  hYL1116_corrected->Rebin(rebin);
   cPtY_L1116_corrected->cd(2);
   hPtL1116_corrected->Draw();
+  hPtL1116_corrected->Rebin(rebin);
   
   TCanvas *cPions=new TCanvas("cPions","cPions");
   cPions->Divide(2);
