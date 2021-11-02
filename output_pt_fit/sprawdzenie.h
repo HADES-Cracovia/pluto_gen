@@ -109,7 +109,8 @@ sprawdzenie::sprawdzenie(TTree *tree) : fChain(0)
     {
       //TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("output.root.root");
       //TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/lustre/hades/user/knowakow/PNB/pluto_gen/output_L1520K0/L1520_thermal_100.root");
-      TFile *f=new TFile("L1520_thermal_T_0.139.root","open");
+      //TFile *f=new TFile("L1520_thermal_T_0.139.root","open");
+      TFile *f=new TFile("L1520_thermal_T_0.155_Ek_0.750.root","open");
       /*
 	if (!f || !f->IsOpen())
 	{

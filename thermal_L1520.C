@@ -45,48 +45,50 @@ void thermal_L1520()
   */
   cout<<"Load all new data succesfully!!!"<<endl;
   
-  int nparts = 100;
+  int nparts =1000;
   for (int ipart = 0; ipart < nparts; ++ipart)
-    {
-      int nEvents=10000;
-      //Float_t Eb    = 3.5;  // beam energy in GeV/u
-      Float_t Eb    = 0.8;
-      //Float_t T     = 0.090;  // temperature in GeV
-      Float_t T     = 0.04+(double)ipart/(double)nparts*0.1;  // temperature in GeV
-      Float_t blast = 0.0;   // radial expansion velocity
+    //for(int jpar=0; jpar<nparts; ++jpar)
+      {
+	int nEvents=10000;
+	//Float_t Eb    = 3.5;  // beam energy in GeV/u
+	Float_t Eb    = 0.6;
+	//Float_t Eb=0.2+1*(double)jpar/(double)nparts;
+	Float_t T     = 0.125;  // temperature in GeV
+	//Float_t T     = 0.06+(double)ipart/(double)nparts*0.1;  // temperature in GeV
+	Float_t blast = 0.0;   // radial expansion velocity
 
-      PFireball *source = new PFireball("Lambda(1520)",Eb,T,0,1,blast,0,0,0,0);
+	PFireball *source = new PFireball("Lambda(1520)",Eb,T,0,1,blast,0,0,0,0);
       
-      source->setTrueThermal(kTRUE);
-      source->Print();
+	source->setTrueThermal(kTRUE);
+	source->Print();
 
-      PParticle *Ls=new PParticle("Lambda(1520)");
-      PParticle *s[]={source,Ls};
+	PParticle *Ls=new PParticle("Lambda(1520)");
+	PParticle *s[]={source,Ls};
 
-      PChannel  *c1=new PChannel(s,1,1,1);
-      PParticle *pip = new PParticle("pi+");
-      PParticle *pim = new PParticle("pi-");
-      PParticle *Lz = new PParticle("Lambda");
-      c1->Print();
+	PChannel  *c1=new PChannel(s,1,1,1);
+	PParticle *pip = new PParticle("pi+");
+	PParticle *pim = new PParticle("pi-");
+	PParticle *Lz = new PParticle("Lambda");
+	c1->Print();
       
-      PParticle *pidecay[] = {Ls,pip,pim,Lz};
+	PParticle *pidecay[] = {Ls,pip,pim,Lz};
 
-      PChannel *c2 = new PChannel(pidecay,3,1,1);
-      c2->Print();
+	PChannel *c2 = new PChannel(pidecay,3,1,1);
+	c2->Print();
 
-      cout<<endl<<"Print all channels"<<endl<<endl;
-      PChannel  *cc[]={c1,c2};
-      cc[0]->Print();
-      cc[1]->Print();
+	cout<<endl<<"Print all channels"<<endl<<endl;
+	PChannel  *cc[]={c1,c2};
+	cc[0]->Print();
+	cc[1]->Print();
       
-      //PReaction *r=new PReaction(cc,Form("./output_L1520/L1520_thermal_%i",ipart),,0,0,0,1); // three particles in the final state
-      PReaction *r=new PReaction(cc,Form("./output_pt_fit/L1520_thermal_T_%.3f",T),2,0,0,0,1); // three particles in the final state
+	PReaction *r=new PReaction(cc,Form("./output_L1520_125_600/L1520_thermal_125_600_%i",ipart),2,0,0,0,1); // three particles in the final state
+	//PReaction *r=new PReaction(cc,Form("./output_pt_fit/L1520_thermal_T_%.3f_Ek_%.3f",T,Eb),2,0,0,0,1); // three particles in the final state
      
-      r->Print();
+	r->Print();
       
-      r->setHGeant(0);   // set to 1, if PLUTO run from HGeant prompt
-      cout<<"Poczatek petli "<<ipart+1<<endl;
-      r->Loop(nEvents);
-    }
+	r->setHGeant(0);   // set to 1, if PLUTO run from HGeant prompt
+	cout<<"Poczatek petli "<<ipart+1<<endl;
+	r->Loop(nEvents);
+      }
   cout<<"koniec programu"<<endl;
 }

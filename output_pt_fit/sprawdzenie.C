@@ -19,7 +19,7 @@ void rescaleHist(TH1F* h,double scale=1, double shift=0)
 }
   
 
-void sprawdzenie::Loop()
+void sprawdzenie::Loop(char* out="sprawdzenie_output.root")
 {
   //   In a ROOT session, you can do:
   //      Root > .L sprawdzenie.C
@@ -45,8 +45,8 @@ void sprawdzenie::Loop()
   //    fChain->GetEntry(jentry);       //read all branches
   //by  b_branchname->GetEntry(ientry); //read only this branch
   if (fChain == 0) return;
-  TFile* fEff=new TFile("/lustre/hades/user/knowakow/PNB/FAT/PPIMPIPPIM/All_analysis/eff_output.root","read");
-  TFile* output=new TFile("sprawdzenie_output.root","RECREATE");
+  TFile* fEff=new TFile("./../../../PNB/FAT/PPIMPIPPIM/All_analysis//eff_output.root","read");
+  TFile* output=new TFile(out,"RECREATE");
 
   TH2F* h2Eff=(TH2F*)fEff->Get("h2PtvsYEff");
   
@@ -86,7 +86,7 @@ void sprawdzenie::Loop()
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
-      if(jentry%100==0)
+      if(jentry%1000==0)
 	std::cout<<"Event no "<<jentry<<" from "<<nentries<<", "<<100.*jentry/nentries<<"% analyzed"<<endl;
       
       TLorentzVector Lz, Ls, pip, pim;

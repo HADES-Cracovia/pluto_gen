@@ -53,9 +53,9 @@ void thermal_SigmaSpimKz()
       Int_t nEvents = 10000;
 
       //Float_t Eb    = 3.5;  // beam energy in GeV/u
-      Float_t Eb    = 0.8;
+      Float_t Eb    = 0.6;
       //Float_t T     = 0.090;  // temperature in GeV
-      Float_t T     = 0.050;  // temperature in GeV
+      Float_t T     = 0.125;  // temperature in GeV
       Float_t blast = 0.0;   // radial expansion velocity
 
       PFireball *source = new PFireball("Temp",Eb,T,0,1,blast,0,0,0,0);
@@ -87,7 +87,7 @@ void thermal_SigmaSpimKz()
       cc[1]->Print();
       cc[2]->Print();
       
-      PReaction *r=new PReaction(cc,Form("./output_SsPimKz/SsPimKz_thermal_%i",ipart),3,0,0,0,1); // four particles in the final state
+      PReaction *r=new PReaction(cc,Form("./output_SsPimKz_125_600/SsPimKz_thermal_125_600_%i",ipart),3,0,0,0,1); // four particles in the final state
       r->Print();
       
       r->setHGeant(0);   // set to 1, if PLUTO run from HGeant prompt

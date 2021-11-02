@@ -21,7 +21,7 @@
   makeStaticData()->SetParticleBaryon("Lambda1520", 1);
   makeStaticData()->SetParticleSpin("Lambda1520", 3);
   makeStaticData()->SetParticleParity("Lambda1520", 1);
-
+  /*
   makeStaticData()->AddDecay("Lambda(1520) -->  n + K0bar", "Lambda1520", "n, K0bar", 0.45);
   makeStaticData()->AddDecay("Lambda(1520) -->  pi + Sigma", "Lambda1520", "pi0, Sigma0", 0.42);
   makeStaticData()->AddDecay("Lambda(1520) -->  pi + pi + Lambda", "Lambda1520", "pi0, pi0, Lambda", 0.033);
@@ -33,7 +33,7 @@
   newmodel = new PResonanceDalitz("Lambda1520_dalitz@Lambda1520_to_Lambda_dilepton","dgdm from Zetenyi/Wolf", -1);
   newmodel->setGm(0.719);
   makeDistributionManager()->Add(newmodel);
-
+  */
   /*                                                                                                                                                                                                        
   //============this block sets up the angular distribution of L1520 particle============                                                                                                                   
   PAngularDistribution *angL1520 = new PAngularDistribution("angL1520","angL1520 distribution");                                                                                                            
@@ -53,7 +53,7 @@
   */
 
   //proton beam has optimal properties at 5 GeV of kinetic energy. It corresponds to 5.86 GeV of momentum
-  PReaction my_reaction1("_T1=3.5","p","p","p K+ Lambda1520", "ppLam", 1, 0, 1, 1);
+  PReaction my_reaction1("_T1=3.5","p","p","D++ [p  pi+]  K0S  Lambda", "DppKzLambda", 1, 0, 1, 1);
 
-  my_reaction1.Loop(100);
+  my_reaction1.Loop(10000);
 }
