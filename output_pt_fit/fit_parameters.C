@@ -13,11 +13,12 @@ void rescaleHist1(TH1F* h,double scale=1, double shift=0)
   delete temp;
 }
 
-double fit_parameters(char* name="L1520_thermal_T_0.125_Ek_0.600_pictures.root")
+double *fit_parameters(char* name="L1520_thermal_T_0.125_Ek_0.600_pictures.root")
 {
   double totalChi2;
   double L1116Chi2;
   double L1520Chi2;
+  double L1520counts;
   //open files
   cout<<"Load file: "<<name<<endl;
   TFile *fPluto=new TFile(name,"read");
@@ -41,6 +42,7 @@ double fit_parameters(char* name="L1520_thermal_T_0.125_Ek_0.600_pictures.root")
   TH1F* h_exp_L1520_pt_SB=(TH1F*)fExperiment->Get("hL1520_pt_SB");
   TH1F* h_exp_L1520_w_SB=(TH1F*)fExperiment->Get("hL1520_w_SB");
 
+  L1520counts=h_pluto_L1116_pt->Integral();
   
   //substract SB
   h_exp_L1116_pt->Add(h_exp_L1116_pt_SB,-1);
@@ -97,9 +99,12 @@ double fit_parameters(char* name="L1520_thermal_T_0.125_Ek_0.600_pictures.root")
   //delete fPluto;
   //delete fExperiment;
   //prepare output
-  //static
+  static double out[2];
+  out[0]=totalChi2;
+  out[1]=L1520counts/10000;
   
-  return totalChi2;
+  //return totalChi2;
+  return out;
 }
 
 
